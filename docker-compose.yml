@@ -1,0 +1,46 @@
+version: "2"
+
+services:
+    tile38:
+        image: "tile38/tile38"
+        ports:
+            - "39851:9851"
+    timescaledb:
+        image: "timescale/timescaledb-postgis:latest-pg11"
+        ports:
+            - "35432:5432"
+        environment:
+            POSTGRES_DB: "irigo"
+            POSTGRES_USER: "irigo"
+            POSTGRES_PASSWORD: "irigo"
+            TIMESCALEDB_TELEMETRY: "off"
+        volumes:
+            - "./dump:/var/lib/postgresql"
+    pipelinedb:
+        image: "pipelinedb/pipelinedb-postgresql-11"
+        ports:
+            - "45432:5432"
+        environment:
+            POSTGRES_DB: "irigo"
+            POSTGRES_USER: "irigo"
+            POSTGRES_PASSWORD: "irigo"
+        volumes:
+            - "./dump:/var/lib/postgresql"
+    websocket-server:
+        build: ./container/websocket
+        links:
+            - redis
+        expose:
+            - "3000"
+        environment: 
+            - NAME=Doctor
+    redis:
+        image: redis:alpine
+        expose:
+            - "6379"
+    nginx:
+        build: ./container/nginx
+        links:
+            - websocket-server
+        ports:
+            - "3000:80"

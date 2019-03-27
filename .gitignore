@@ -1,0 +1,8 @@
+# Created by .ignore support plugin (hsz.mobi)
+/.idea
+/.vscode
+/src/.ipynb_checkpoints/
+/bin
+/lib*
+/dump
+/share/*

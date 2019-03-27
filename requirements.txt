@@ -1,0 +1,7 @@
+bonobo
+requests
+redis
+psycopg2
+python-dotenv
+tornado
+python-socketio[client]
