@@ -6,3 +6,4 @@
 /lib*
 /dump
 /share/*
+src/__pycache__/
